@@ -17,11 +17,6 @@ public class Ship {
         controlPanel = new ControlPanel(this, buttons);
     }
 
-    public void changeControlPanel(ControlPanel controlPanel) {
-        if (controlPanel == null) throw new NullPointerException("controlPanel is null");
-        this.controlPanel = controlPanel;
-    }
-
     public void moveForward(double x) {
         locator.appendX(x);
     }
@@ -31,10 +26,10 @@ public class Ship {
     }
 
     public void moveLeft(double y) {
-        locator.appendY(y);
+        locator.decreaseY(y);
     }
 
     public void moveRight(double y) {
-        locator.decreaseY(y);
+        locator.appendY(y);
     }
 }

@@ -8,12 +8,6 @@ public class Locator {
     private double y;
     private double z;
 
-    public Locator(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-
     public Locator() {
         this.x = 0;
         this.y = 0;

@@ -21,20 +21,7 @@ public class Actor {
     }
 
     public void interactWith(Object object, Task action) throws Exception {
-//        switch (action) {
-//            case STOPPING_PERSON -> {
-//                ((Actor) object).setTask(Task.NOTHING);
-//                break;
-//            }
-//            case DRUMMING_SOMETHING -> {
-//                if (object.getClass().equals(ControlPanel.class)) {
-//                    Math.random()
-//                } else {
-//                    throw new Exception("Undefined interacting action");
-//                }
-//            }
-
-
+        throw new UnsupportedOperationException("Not supported actor behavior.");
     }
 
 }
