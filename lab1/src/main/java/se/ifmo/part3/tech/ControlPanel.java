@@ -16,11 +16,6 @@ public class ControlPanel implements Executable {
         this.buttons = buttons;
     }
 
-    // TODO replace to DRUM method in actor
-    public void pressRandomButton() throws Exception {
-        int randInd = (int) (Math.random() * buttons.size());
-        buttons.get(randInd).execute(ship);
-    }
 
     /**
      * press button

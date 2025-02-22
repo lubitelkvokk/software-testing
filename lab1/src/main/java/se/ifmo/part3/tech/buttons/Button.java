@@ -16,6 +16,7 @@ public class Button implements Executable {
 
     @Override
     public void execute(Object object) throws Exception {
+//        System.out.println();
         throw new UndefinedButtonBehaviorException();
     }
 }
