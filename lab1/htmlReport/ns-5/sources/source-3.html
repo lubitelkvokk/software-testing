@@ -1,0 +1,139 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1251"> 
+  <title>Coverage Report > Ship</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">se.ifmo.part3.tech</a>
+</div>
+
+<h1>Coverage Summary for Class: Ship (se.ifmo.part3.tech)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Ship</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package se.ifmo.part3.tech;
+&nbsp;
+&nbsp;import lombok.Data;
+&nbsp;import se.ifmo.part3.tech.buttons.Button;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;@Data
+&nbsp;public class Ship {
+<b class="fc">&nbsp;    private State state = State.WORKING;</b>
+&nbsp;    private ControlPanel controlPanel;
+&nbsp;    private Locator locator;
+&nbsp;    private String name;
+&nbsp;
+<b class="fc">&nbsp;    public Ship(ArrayList&lt;Button&gt; buttons) {</b>
+<b class="fc">&nbsp;        locator = new Locator();</b>
+<b class="fc">&nbsp;        controlPanel = new ControlPanel(this, buttons);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void moveForward(double x) {
+<b class="fc">&nbsp;        locator.appendX(x);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void moveBackward(double x) {
+<b class="fc">&nbsp;        locator.decreaseX(x);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void moveLeft(double y) {
+<b class="fc">&nbsp;        locator.decreaseY(y);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void moveRight(double y) {
+<b class="fc">&nbsp;        locator.appendY(y);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-27 17:26</div>
+</div>
+</body>
+</html>

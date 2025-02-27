@@ -1,0 +1,293 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1251"> 
+  <title>Coverage Report > AVLTree</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">se.ifmo.part2</a>
+</div>
+
+<h1>Coverage Summary for Class: AVLTree (se.ifmo.part2)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AVLTree</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (42/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (65/65)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AVLTree$Node</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (42/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (67/67)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package se.ifmo.part2;
+&nbsp;
+&nbsp;import lombok.Data;
+&nbsp;import lombok.Getter;
+&nbsp;
+&nbsp;@Getter
+<b class="fc">&nbsp;public class AVLTree {</b>
+&nbsp;
+&nbsp;    @Data
+&nbsp;    public class Node {
+&nbsp;        int key;
+&nbsp;        int height;
+&nbsp;        Node left;
+&nbsp;        Node right;
+&nbsp;
+<b class="fc">&nbsp;        Node(int key) {</b>
+<b class="fc">&nbsp;            this.key = key;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private Node root;
+&nbsp;
+&nbsp;    public Node find(int key) {
+<b class="fc">&nbsp;        Node current = root;</b>
+<b class="fc">&nbsp;        while (current != null) {</b>
+<b class="fc">&nbsp;            if (current.key == key) {</b>
+&nbsp;                break;
+&nbsp;            }
+<b class="fc">&nbsp;            current = current.key &lt; key ? current.right : current.left;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return current;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void insert(int key) {
+<b class="fc">&nbsp;        root = insert(root, key);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void delete(int key) {
+<b class="fc">&nbsp;        root = delete(root, key);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int height() {
+<b class="fc">&nbsp;        return root == null ? -1 : root.height;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Node insert(Node root, int key) {
+<b class="fc">&nbsp;        if (root == null) {</b>
+<b class="fc">&nbsp;            return new Node(key);</b>
+<b class="fc">&nbsp;        } else if (root.key &gt; key) {</b>
+<b class="fc">&nbsp;            root.left = insert(root.left, key);</b>
+<b class="fc">&nbsp;        } else if (root.key &lt; key) {</b>
+<b class="fc">&nbsp;            root.right = insert(root.right, key);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;duplicate Key!&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return rebalance(root);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Node delete(Node node, int key) {
+<b class="fc">&nbsp;        if (node == null) {</b>
+<b class="fc">&nbsp;            return node;</b>
+<b class="fc">&nbsp;        } else if (node.key &gt; key) {</b>
+<b class="fc">&nbsp;            node.left = delete(node.left, key);</b>
+<b class="fc">&nbsp;        } else if (node.key &lt; key) {</b>
+<b class="fc">&nbsp;            node.right = delete(node.right, key);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            if (node.left == null || node.right == null) {</b>
+<b class="fc">&nbsp;                node = (node.left == null) ? node.right : node.left;</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                Node mostLeftChild = mostLeftChild(node.right);</b>
+<b class="fc">&nbsp;                node.key = mostLeftChild.key;</b>
+<b class="fc">&nbsp;                node.right = delete(node.right, node.key);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if (node != null) {</b>
+<b class="fc">&nbsp;            node = rebalance(node);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return node;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Node mostLeftChild(Node node) {
+<b class="fc">&nbsp;        Node current = node;</b>
+&nbsp;        /* loop down to find the leftmost leaf */
+<b class="fc">&nbsp;        while (current.left != null) {</b>
+<b class="fc">&nbsp;            current = current.left;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return current;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Node rebalance(Node z) {
+<b class="fc">&nbsp;        updateHeight(z);</b>
+<b class="fc">&nbsp;        int balance = getBalance(z);</b>
+<b class="fc">&nbsp;        if (balance &gt; 1) {</b>
+<b class="fc">&nbsp;            if (height(z.right.right) &gt; height(z.right.left)) {</b>
+<b class="fc">&nbsp;                z = rotateLeft(z);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                z.right = rotateRight(z.right);</b>
+<b class="fc">&nbsp;                z = rotateLeft(z);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        } else if (balance &lt; -1) {</b>
+<b class="fc">&nbsp;            if (height(z.left.left) &gt; height(z.left.right)) {</b>
+<b class="fc">&nbsp;                z = rotateRight(z);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                z.left = rotateLeft(z.left);</b>
+<b class="fc">&nbsp;                z = rotateRight(z);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return z;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Node rotateRight(Node y) {
+<b class="fc">&nbsp;        Node x = y.left;</b>
+<b class="fc">&nbsp;        Node z = x.right;</b>
+<b class="fc">&nbsp;        x.right = y;</b>
+<b class="fc">&nbsp;        y.left = z;</b>
+<b class="fc">&nbsp;        updateHeight(y);</b>
+<b class="fc">&nbsp;        updateHeight(x);</b>
+<b class="fc">&nbsp;        return x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Node rotateLeft(Node y) {
+<b class="fc">&nbsp;        Node x = y.right;</b>
+<b class="fc">&nbsp;        Node z = x.left;</b>
+<b class="fc">&nbsp;        x.left = y;</b>
+<b class="fc">&nbsp;        y.right = z;</b>
+<b class="fc">&nbsp;        updateHeight(y);</b>
+<b class="fc">&nbsp;        updateHeight(x);</b>
+<b class="fc">&nbsp;        return x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updateHeight(Node n) {
+<b class="fc">&nbsp;        n.height = 1 + Math.max(height(n.left), height(n.right));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private int height(Node n) {
+<b class="fc">&nbsp;        return n == null ? -1 : n.height;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getBalance(Node n) {
+<b class="fc">&nbsp;        return (n == null) ? 0 : height(n.right) - height(n.left);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-27 17:26</div>
+</div>
+</body>
+</html>
