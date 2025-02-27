@@ -52,4 +52,11 @@ public class CosTests {
         Assertions.assertNotEquals(Math.cos(-33), Cos.cos(-33), EPS3);
     }
 
+    @Test
+    public void emptyCosConstructor(){
+        Cos cos = new Cos();
+        Assertions.assertNotNull(cos);
+    }
+
+
 }
