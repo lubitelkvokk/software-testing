@@ -10,7 +10,6 @@ public class MoveRightButton extends Button {
 
     @Override
     public void execute(Object object) throws Exception {
-        // cast obj to ship generally
         if (object instanceof Ship) {
             ((Ship) object).moveRight(1);
         } else {

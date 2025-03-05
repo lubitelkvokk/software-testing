@@ -20,6 +20,15 @@ public class AVLTree {
 
     private Node root;
 
+
+    public void delete(int key) {
+        root = delete(root, key);
+    }
+
+    public int height() {
+        return root == null ? -1 : root.height;
+    }
+
     public Node find(int key) {
         Node current = root;
         while (current != null) {
@@ -33,14 +42,6 @@ public class AVLTree {
 
     public void insert(int key) {
         root = insert(root, key);
-    }
-
-    public void delete(int key) {
-        root = delete(root, key);
-    }
-
-    public int height() {
-        return root == null ? -1 : root.height;
     }
 
     private Node insert(Node root, int key) {
@@ -80,7 +81,6 @@ public class AVLTree {
 
     private Node mostLeftChild(Node node) {
         Node current = node;
-        /* loop down to find the leftmost leaf */
         while (current.left != null) {
             current = current.left;
         }

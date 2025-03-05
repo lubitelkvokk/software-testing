@@ -17,12 +17,6 @@ public class ControlPanel implements Executable {
     }
 
 
-    /**
-     * press button
-     *
-     * @param object
-     * @throws Exception
-     */
     @Override
     public void execute(Object object) throws Exception {
         ButtonType buttonType = (ButtonType) object;

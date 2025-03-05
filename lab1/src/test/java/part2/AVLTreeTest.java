@@ -23,6 +23,9 @@ public class AVLTreeTest {
     }
 
 
+    // =========
+    // BLACK BOX
+    // =========
     @Test
     public void findKeyTest() {
         assertNotNull(avlTree.find(1));
@@ -47,6 +50,9 @@ public class AVLTreeTest {
         assertTrue(isAVL(avlTree));
     }
 
+    // =========
+    // GRAY BOX
+    // =========
     @Test
     public void duplicateInsertNodeTest() {
         Exception thrown = assertThrows(
@@ -84,6 +90,10 @@ public class AVLTreeTest {
         assertTrue(isAVL(avlTree));
     }
 
+
+    // =========
+    // WHITE BOX
+    // =========
     @Test
     public void getBalanceOfTree() {
         assertEquals(Math.abs(avlTree.getBalance(avlTree.getRoot())), 1);

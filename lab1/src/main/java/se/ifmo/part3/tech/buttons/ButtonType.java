@@ -1,6 +1,5 @@
 package se.ifmo.part3.tech.buttons;
 
-import lombok.Data;
 import lombok.Getter;
 
 @Getter

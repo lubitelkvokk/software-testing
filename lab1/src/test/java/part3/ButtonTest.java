@@ -22,6 +22,9 @@ public class ButtonTest {
         moveRightButton = new MoveRightButton();
     }
 
+    // ===========
+    // WHITE BOXES
+    // ===========
     @Test
     void testButton() {
         Assertions.assertThrows(UndefinedButtonBehaviorException.class, () -> button.execute(new Object()));

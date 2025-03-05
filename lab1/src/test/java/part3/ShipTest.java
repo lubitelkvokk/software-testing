@@ -35,6 +35,9 @@ public class ShipTest {
     }
 
 
+    // =========
+    // GRAY BOX
+    // =========
     @ParameterizedTest
     @ValueSource(doubles = {1.0, 25.613, 362})
     public void moveForward(double x) {
@@ -63,6 +66,10 @@ public class ShipTest {
         Assertions.assertEquals(ship.getLocator().getY(), y);
     }
 
+
+    // =========
+    // BLACK BOX
+    // =========
     @Test
     public void moveForwardThroughPanel() throws Exception {
         ship.getControlPanel().execute(ButtonType.MOVE_FORWARD_BUTTON);
@@ -87,8 +94,11 @@ public class ShipTest {
         Assertions.assertEquals(ship.getLocator().getY(), 1);
     }
 
+    // =========
+    // WHITE BOX
+    // =========
     @Test
-    public void shipExplodeCheck() throws Exception {
+    public void shipExplodeCheck() {
         Assertions.assertThrows(SomethingExplodedException.class, () -> ship.getControlPanel().execute(ButtonType.EXPLOSION_BUTTON));
         Assertions.assertEquals(ship.getState(), State.BROKEN);
     }
