@@ -1,5 +1,7 @@
 package se.ifmo;
 
+import java.io.PrintWriter;
+
 public class Ln {
     public static double EPS = 1e-6;
     public static final int MAX_STEP = 10000;
@@ -29,5 +31,15 @@ public class Ln {
             k++;
         }
         return ln1PlusX(x - 1) + k;
+    }
+
+    public static void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
+        double result;
+        for (int i = 0; i < count; i++) {
+            result = ln(startX + i * step);
+            WriteCsv.writeToFileDataLine(pw, new String[]{
+                    String.valueOf(startX + i * step),
+                    String.valueOf(result)});
+        }
     }
 }

@@ -1,5 +1,6 @@
 package se.ifmo;
 
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 
 public class Sin {
@@ -28,5 +29,15 @@ public class Sin {
             throw new ArithmeticException("Too much value for custom sin realization");
         }
         return sinResult;
+    }
+
+    public static void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
+        double result;
+        for (int i = 0; i < count; i++) {
+            result = sin(startX + i * step);
+            WriteCsv.writeToFileDataLine(pw, new String[]{
+                    String.valueOf(startX + i * step),
+                    String.valueOf(result)});
+        }
     }
 }

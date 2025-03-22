@@ -1,5 +1,7 @@
 package se.ifmo;
 
+import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class Factorial {
@@ -10,5 +12,14 @@ public class Factorial {
             result = result.multiply(BigInteger.valueOf(i));
         }
         return result;
+    }
+    public static void writeCsvResult(int startX, int step, int count, PrintWriter pw) {
+        BigInteger result;
+        for (int i = 0; i < count; i++) {
+            result = getFactorial(startX + i * step);
+            WriteCsv.writeToFileDataLine(pw, new String[]{
+                    String.valueOf(startX + i * step),
+                    String.valueOf(result)});
+        }
     }
 }
