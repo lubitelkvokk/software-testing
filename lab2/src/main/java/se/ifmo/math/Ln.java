@@ -4,11 +4,11 @@ import se.ifmo.CsvWorker;
 
 import java.io.PrintWriter;
 
-public class Ln implements CsvWritableByStep{
+public class Ln implements CsvWritableByStep {
     public static double EPS = 1e-6;
     public static final int MAX_STEP = 10000;
 
-    private static double ln1PlusX(double y) {
+    private double ln1PlusX(double y) {
         if (Math.abs(y) >= 1) {
             throw new IllegalArgumentException("|x| must be less than 1 for this series to converge.");
         }
@@ -22,7 +22,7 @@ public class Ln implements CsvWritableByStep{
         return result;
     }
 
-    public static double ln(double x) {
+    public double ln(double x) {
         if (x < 0) {
             throw new IllegalArgumentException("x must be positive.");
         }
@@ -35,7 +35,7 @@ public class Ln implements CsvWritableByStep{
         return ln1PlusX(x - 1) + k;
     }
 
-    public static void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
+    public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         double result;
         for (int i = 0; i < count; i++) {
             result = ln(startX + i * step);

@@ -5,12 +5,25 @@ import se.ifmo.CsvWorker;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 
-public class Tan implements CsvWritableByStep{
-    public static BigDecimal tan(double x) {
-        return BigDecimal.valueOf(Sin.sin(x)).divide(BigDecimal.valueOf(Cos.cos(x)), 5, 1);
+public class Tan implements CsvWritableByStep {
+    private Sin sin;
+    private Cos cos;
+
+    public Tan() {
+        this.sin = new Sin();
+        this.cos = new Cos();
     }
 
-    public static void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
+    public Tan(Sin sin, Cos cos) {
+        this.sin = sin;
+        this.cos = cos;
+    }
+
+    public BigDecimal tan(double x) {
+        return BigDecimal.valueOf(sin.sin(x)).divide(BigDecimal.valueOf(cos.cos(x)), 5, 1);
+    }
+
+    public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         BigDecimal result;
         for (int i = 0; i < count; i++) {
             result = tan(startX + i * step);

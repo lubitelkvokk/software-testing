@@ -4,12 +4,23 @@ import se.ifmo.CsvWorker;
 
 import java.io.PrintWriter;
 
-public class Csc implements CsvWritableByStep{
+public class Csc implements CsvWritableByStep {
 
-    public static double csc(double x) {
-        return 1 / Sin.sin(x);
+    private Sin sin;
+
+    public Csc() {
+        this.sin = new Sin();
     }
-    public static void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
+
+    public Csc(Sin sin) {
+        this.sin = sin;
+    }
+
+    public double csc(double x) {
+        return 1 / sin.sin(x);
+    }
+
+    public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         double result;
         for (int i = 0; i < count; i++) {
             result = csc(startX + i * step);

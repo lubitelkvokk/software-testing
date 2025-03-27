@@ -5,11 +5,21 @@ import se.ifmo.CsvWorker;
 import java.io.PrintWriter;
 
 public class LogN {
-    public static double logN(double n, double x) {
-        return Ln.ln(x) / Ln.ln(n);
+    private Ln ln;
+
+    public LogN() {
+        ln = new Ln();
     }
 
-    public static void writeCsvResult(double base, double startX, double step, int count, PrintWriter pw) {
+    public LogN(Ln ln) {
+        this.ln = new Ln();
+    }
+
+    public double logN(double n, double x) {
+        return ln.ln(x) / ln.ln(n);
+    }
+
+    public void writeCsvResult(double base, double startX, double step, int count, PrintWriter pw) {
         double result;
         for (int i = 0; i < count; i++) {
             result = logN(base, startX + i * step);

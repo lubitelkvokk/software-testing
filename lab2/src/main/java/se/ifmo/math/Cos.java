@@ -7,11 +7,21 @@ import java.io.PrintWriter;
 
 public class Cos implements CsvWritableByStep{
 
-    public static double cos(double x) {
-        return Sin.sin(x + Math.PI / 2);
+    private Sin sin;
+
+    public Cos(){
+        sin = new Sin();
     }
 
-    public static void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
+    public Cos(Sin sin) {
+        this.sin = sin;
+    }
+
+    public double cos(double x) {
+        return sin.sin(x + Math.PI / 2);
+    }
+
+    public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         double result;
         for (int i = 0; i < count; i++) {
             result = cos(startX + i * step);

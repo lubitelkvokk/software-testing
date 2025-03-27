@@ -4,12 +4,23 @@ import se.ifmo.CsvWorker;
 
 import java.io.PrintWriter;
 
-public class Sec implements CsvWritableByStep{
+public class Sec implements CsvWritableByStep {
+    private Cos cos;
 
-    public static double sec(double x) {
-        return 1 / Cos.cos(x);
+    public Sec() {
+        this.cos = new Cos();
     }
-    public static void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
+
+    public Sec(Cos cos) {
+        this.cos = cos;
+    }
+
+    public double sec(double x) {
+        return 1 / cos.cos(x);
+    }
+
+
+    public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         double result;
         for (int i = 0; i < count; i++) {
             result = sec(startX + i * step);
