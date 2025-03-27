@@ -1,10 +1,11 @@
-package se.ifmo;
+package se.ifmo.math;
+
+import se.ifmo.CsvWorker;
 
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Factorial {
+public class Factorial implements CsvWritableByStep{
     public static BigInteger getFactorial(int f) {
         if (f < 0) throw new ArithmeticException("Negative numbers don't have a factorial");
         BigInteger result = BigInteger.ONE;
@@ -17,7 +18,7 @@ public class Factorial {
         BigInteger result;
         for (int i = 0; i < count; i++) {
             result = getFactorial(startX + i * step);
-            WriteCsv.writeToFileDataLine(pw, new String[]{
+            CsvWorker.writeToFileDataLine(pw, new String[]{
                     String.valueOf(startX + i * step),
                     String.valueOf(result)});
         }

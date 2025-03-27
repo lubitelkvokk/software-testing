@@ -1,8 +1,10 @@
-package se.ifmo;
+package se.ifmo.math;
+
+import se.ifmo.CsvWorker;
 
 import java.io.PrintWriter;
 
-public class Ln {
+public class Ln implements CsvWritableByStep{
     public static double EPS = 1e-6;
     public static final int MAX_STEP = 10000;
 
@@ -37,7 +39,7 @@ public class Ln {
         double result;
         for (int i = 0; i < count; i++) {
             result = ln(startX + i * step);
-            WriteCsv.writeToFileDataLine(pw, new String[]{
+            CsvWorker.writeToFileDataLine(pw, new String[]{
                     String.valueOf(startX + i * step),
                     String.valueOf(result)});
         }

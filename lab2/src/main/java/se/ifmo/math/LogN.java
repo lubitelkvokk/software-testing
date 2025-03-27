@@ -1,4 +1,6 @@
-package se.ifmo;
+package se.ifmo.math;
+
+import se.ifmo.CsvWorker;
 
 import java.io.PrintWriter;
 
@@ -11,7 +13,7 @@ public class LogN {
         double result;
         for (int i = 0; i < count; i++) {
             result = logN(base, startX + i * step);
-            WriteCsv.writeToFileDataLine(pw, new String[]{
+            CsvWorker.writeToFileDataLine(pw, new String[]{
                     String.valueOf(startX + i * step),
                     String.valueOf(result)});
         }

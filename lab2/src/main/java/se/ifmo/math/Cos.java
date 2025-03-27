@@ -1,9 +1,11 @@
-package se.ifmo;
+package se.ifmo.math;
+
+import se.ifmo.CsvWorker;
 
 import java.io.PrintWriter;
 
 
-public class Cos {
+public class Cos implements CsvWritableByStep{
 
     public static double cos(double x) {
         return Sin.sin(x + Math.PI / 2);
@@ -13,7 +15,7 @@ public class Cos {
         double result;
         for (int i = 0; i < count; i++) {
             result = cos(startX + i * step);
-            WriteCsv.writeToFileDataLine(pw, new String[]{
+            CsvWorker.writeToFileDataLine(pw, new String[]{
                     String.valueOf(startX + i * step),
                     String.valueOf(result)});
         }

@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import se.ifmo.Cos;
+import se.ifmo.math.Cos;
 
 public class CosTests {
     private static final double EPS3 = 1e-3;

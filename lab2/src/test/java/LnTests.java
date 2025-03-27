@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import se.ifmo.Ln;
+import se.ifmo.math.Ln;
 
 public class LnTests {
     private static final double EPS3 = 1e-3;

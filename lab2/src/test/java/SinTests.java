@@ -2,8 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import se.ifmo.Factorial;
-import se.ifmo.Sin;
+import se.ifmo.math.Sin;
 
 public class SinTests {
     private static final double EPS3 = 1e-3;

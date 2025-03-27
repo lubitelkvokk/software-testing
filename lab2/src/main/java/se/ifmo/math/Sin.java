@@ -1,9 +1,10 @@
-package se.ifmo;
+package se.ifmo.math;
+
+import se.ifmo.CsvWorker;
 
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 
-public class Sin {
+public class Sin implements CsvWritableByStep{
     public static double EPS = 1e-5;
     public static final int MAX_STEP = 1000;
 
@@ -35,7 +36,7 @@ public class Sin {
         double result;
         for (int i = 0; i < count; i++) {
             result = sin(startX + i * step);
-            WriteCsv.writeToFileDataLine(pw, new String[]{
+            CsvWorker.writeToFileDataLine(pw, new String[]{
                     String.valueOf(startX + i * step),
                     String.valueOf(result)});
         }

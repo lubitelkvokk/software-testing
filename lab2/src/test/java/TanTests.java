@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import se.ifmo.Tan;
+import se.ifmo.math.Tan;
 
 public class TanTests {
     private static final double EPS3 = 1e-3;
@@ -39,7 +39,7 @@ public class TanTests {
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {0, -EPS3, 1e-3})
+    @ValueSource(doubles = {0, -EPS3, EPS3})
     void tanZeroCheck(double value) {
         Assertions.assertEquals(Math.tan(value), Tan.tan(value).doubleValue(), EPS3);
     }
