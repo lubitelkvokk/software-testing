@@ -6,8 +6,8 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 
 public class Tan implements CsvWritableByStep {
-    private Sin sin;
-    private Cos cos;
+    private final Sin sin;
+    private final Cos cos;
 
     public Tan() {
         this.sin = new Sin();
@@ -23,13 +23,20 @@ public class Tan implements CsvWritableByStep {
         return BigDecimal.valueOf(sin.sin(x)).divide(BigDecimal.valueOf(cos.cos(x)), 5, 1);
     }
 
+    @Override
     public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         BigDecimal result;
         for (int i = 0; i < count; i++) {
-            result = tan(startX + i * step);
-            CsvWorker.writeToFileDataLine(pw, new String[]{
-                    String.valueOf(startX + i * step),
-                    String.valueOf(result)});
+            try {
+                result = tan(startX + i * step);
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        String.valueOf(result)});
+            } catch (Exception e) {
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        "NaN"});
+            }
         }
     }
 }

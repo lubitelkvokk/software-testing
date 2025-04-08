@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 
 public class Cot implements CsvWritableByStep {
 
-    private Cos cos;
-    private Sin sin;
+    private final Cos cos;
+    private final Sin sin;
 
     public Cot() {
         this.cos = new Cos();
@@ -24,13 +24,20 @@ public class Cot implements CsvWritableByStep {
         return BigDecimal.valueOf(cos.cos(x)).divide(BigDecimal.valueOf(sin.sin(x)), 5, 1);
     }
 
+    @Override
     public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         BigDecimal result;
         for (int i = 0; i < count; i++) {
-            result = cot(startX + i * step);
-            CsvWorker.writeToFileDataLine(pw, new String[]{
-                    String.valueOf(startX + i * step),
-                    String.valueOf(result)});
+            try {
+                result = cot(startX + i * step);
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        String.valueOf(result)});
+            } catch (Exception e) {
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        "NaN"});
+            }
         }
     }
 }

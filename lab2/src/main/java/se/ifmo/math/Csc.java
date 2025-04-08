@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 
 public class Csc implements CsvWritableByStep {
 
-    private Sin sin;
+    private final Sin sin;
 
     public Csc() {
         this.sin = new Sin();
@@ -20,13 +20,20 @@ public class Csc implements CsvWritableByStep {
         return 1 / sin.sin(x);
     }
 
+    @Override
     public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         double result;
         for (int i = 0; i < count; i++) {
-            result = csc(startX + i * step);
-            CsvWorker.writeToFileDataLine(pw, new String[]{
-                    String.valueOf(startX + i * step),
-                    String.valueOf(result)});
+            try {
+                result = csc(startX + i * step);
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        String.valueOf(result)});
+            } catch (Exception e) {
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        "NaN"});
+            }
         }
     }
 }

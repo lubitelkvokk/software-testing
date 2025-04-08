@@ -5,7 +5,7 @@ import se.ifmo.CsvWorker;
 import java.io.PrintWriter;
 
 public class Sec implements CsvWritableByStep {
-    private Cos cos;
+    private final Cos cos;
 
     public Sec() {
         this.cos = new Cos();
@@ -20,13 +20,20 @@ public class Sec implements CsvWritableByStep {
     }
 
 
+    @Override
     public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         double result;
         for (int i = 0; i < count; i++) {
-            result = sec(startX + i * step);
-            CsvWorker.writeToFileDataLine(pw, new String[]{
-                    String.valueOf(startX + i * step),
-                    String.valueOf(result)});
+            try {
+                result = sec(startX + i * step);
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        String.valueOf(result)});
+            } catch (Exception e) {
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        "NaN"});
+            }
         }
     }
 }

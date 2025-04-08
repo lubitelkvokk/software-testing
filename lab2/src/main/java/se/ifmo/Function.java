@@ -60,10 +60,17 @@ public class Function implements CsvWritableByStep {
     public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         BigDecimal result;
         for (int i = 0; i < count; i++) {
-            result = calc(startX + i * step, 5);
-            CsvWorker.writeToFileDataLine(pw, new String[]{
-                    String.valueOf(startX + i * step),
-                    String.valueOf(result)});
+            try {
+                result = calc(startX + i * step, 5);
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        String.valueOf(result)});
+            } catch (Exception e){
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        "NaN"});
+
+            }
         }
     }
 }

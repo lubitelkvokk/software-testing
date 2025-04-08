@@ -5,7 +5,7 @@ import se.ifmo.CsvWorker;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 
-public class Factorial implements CsvWritableByStep{
+public class Factorial {
     public static BigInteger getFactorial(int f) {
         if (f < 0) throw new ArithmeticException("Negative numbers don't have a factorial");
         BigInteger result = BigInteger.ONE;

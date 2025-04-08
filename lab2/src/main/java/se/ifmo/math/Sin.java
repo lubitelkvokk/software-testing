@@ -5,7 +5,7 @@ import se.ifmo.CsvWorker;
 import java.io.PrintWriter;
 
 public class Sin implements CsvWritableByStep {
-    public static double EPS = 1e-5;
+    public static double EPS = 1e-6;
     public static final int MAX_STEP = 1000;
 
     public double calcNResult(int n, double x) {
@@ -32,13 +32,20 @@ public class Sin implements CsvWritableByStep {
         return sinResult;
     }
 
+    @Override
     public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         double result;
         for (int i = 0; i < count; i++) {
-            result = sin(startX + i * step);
-            CsvWorker.writeToFileDataLine(pw, new String[]{
-                    String.valueOf(startX + i * step),
-                    String.valueOf(result)});
+            try {
+                result = sin(startX + i * step);
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        String.valueOf(result)});
+            } catch (Exception e) {
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        "NaN"});
+            }
         }
     }
 }

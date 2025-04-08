@@ -1,61 +1,67 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 import se.ifmo.math.Cos;
+import se.ifmo.math.Sin;
+
+import java.util.stream.Stream;
 
 public class CosTests {
     private static final double EPS3 = 1e-3;
-    private static final double EPS5 = 1e-5;
+
 
     private Cos cos;
+    private Sin mockedSin;
 
     @BeforeEach
     public void setUp() {
-        cos = new Cos();
-    }
-
-    @ParameterizedTest
-    @ValueSource(doubles = {Math.PI, Math.PI - EPS5, Math.PI + 1e-5})
-    void cosPiCheck(double value) {
-        Assertions.assertEquals(Math.cos(value), cos.cos(value), EPS3);
-    }
-
-    @ParameterizedTest
-    @ValueSource(doubles = {-Math.PI, -Math.PI - EPS5, -Math.PI + 1e-5})
-    void cosNegPiCheck(double value) {
-        Assertions.assertEquals(Math.cos(value), cos.cos(value), EPS3);
+        mockedSin = Mockito.mock(Sin.class);
+        cos = new Cos(mockedSin);
     }
 
 
     @ParameterizedTest
-    @ValueSource(doubles = {Math.PI / 2, Math.PI / 2 - EPS5, Math.PI / 2 + 1e-5})
-    void cosHalfPiCheck(double value) {
-        Assertions.assertEquals(Math.cos(value), cos.cos(value), EPS3);
+    @MethodSource("testSinData")
+    @DisplayName("Base cos realisation testing")
+    public void testBaseCos(double x) {
+        double result;
+        Cos baseCos = new Cos();
+        result = baseCos.cos(x);
+        Assertions.assertEquals(Math.cos(x), result, EPS3);
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {-Math.PI / 2, -Math.PI / 2 - EPS5, -Math.PI / 2 + 1e-5})
-    void cosNegHalfPiCheck(double value) {
-        Assertions.assertEquals(Math.cos(value), cos.cos(value), EPS3);
+    @MethodSource("testSinData")
+    @DisplayName("Tesing on table of expected values")
+    public void testCosPeriod(double x, double y, double expected) {
+        double result;
+        Mockito.when(mockedSin.sin(x)).thenReturn(y);
+        result = cos.cos(x);
+        Mockito.verify(mockedSin).sin(x);
+        Assertions.assertEquals(expected, result, EPS3);
     }
 
-    @ParameterizedTest
-    @ValueSource(doubles = {0, -EPS5, 1e-5})
-    void cosZeroCheck(double value) {
-        Assertions.assertEquals(Math.cos(value), cos.cos(value), EPS3);
-    }
-
-
-    @Test
-    void cosMaxIntValueCheck() {
-        Assertions.assertEquals(Math.cos(200), cos.cos(200), EPS3);
-    }
-
-    @Test
-    void cosMinIntValueCheck() {
-        Assertions.assertEquals(Math.cos(-200), cos.cos(-200), EPS3);
+    private static Stream<Arguments> testSinData() {
+        return Stream.of(
+                Arguments.of(0d, 0d, 1d),
+                Arguments.of(Math.PI, 0d, -1d),
+                Arguments.of(-Math.PI, 0d, -1d),
+                Arguments.of(2 * Math.PI, 0d, 1d),
+                Arguments.of(-2 * Math.PI, 0d, 1d),
+                Arguments.of(Math.PI / 2, 1d, 0d),
+                Arguments.of(-Math.PI / 2, -1d, 0d),
+                Arguments.of(3 * Math.PI / 2, -1d, 0d),
+                Arguments.of(Math.PI / 4, Math.sqrt(2) / 2, Math.sqrt(2) / 2),
+                Arguments.of(2 * Math.PI + Math.PI / 4, Math.sqrt(2) / 2, Math.sqrt(2) / 2),
+                Arguments.of(-Math.PI / 4, -Math.sqrt(2) / 2, Math.sqrt(2) / 2),
+                Arguments.of(-2 * Math.PI - Math.PI / 4, -Math.sqrt(2) / 2, Math.sqrt(2) / 2),
+                Arguments.of(3 * Math.PI / 4, Math.sqrt(2) / 2, -Math.sqrt(2) / 2),
+                Arguments.of(-3 * Math.PI / 4, -Math.sqrt(2) / 2, -Math.sqrt(2) / 2)
+        );
     }
 
 }

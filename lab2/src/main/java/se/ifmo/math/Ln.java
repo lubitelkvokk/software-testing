@@ -35,13 +35,21 @@ public class Ln implements CsvWritableByStep {
         return ln1PlusX(x - 1) + k;
     }
 
+    @Override
     public void writeCsvResult(double startX, double step, int count, PrintWriter pw) {
         double result;
         for (int i = 0; i < count; i++) {
-            result = ln(startX + i * step);
-            CsvWorker.writeToFileDataLine(pw, new String[]{
-                    String.valueOf(startX + i * step),
-                    String.valueOf(result)});
+            try {
+                result = ln(startX + i * step);
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        String.valueOf(result)});
+            } catch (Exception e) {
+                CsvWorker.writeToFileDataLine(pw, new String[]{
+                        String.valueOf(startX + i * step),
+                        "NaN"});
+            }
+
         }
     }
 }
