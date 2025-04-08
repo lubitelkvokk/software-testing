@@ -22,8 +22,9 @@ public class Main {
                 Cot.class,
                 Tan.class,
         };
-        Double[] xArray = new Double[]{-5.5, -5d, -4.08369, -3.85, -Math.PI, -2.45, -2.22687,
-                -2d, -1.5708, -1.28, -0.99056, -0.7, 0d, 0.17323, 0.2802, 0.5, 6d};
+//        Double[] xArray = new Double[]{-5.5, -5d, -4.08369, -3.85, -Math.PI, -2.45, -2.22687,
+//                -2d, -1.5708, -1.28, -0.99056, -0.7, 0d, 0.17323, 0.2802, 0.5, 6d};
+        Double[] xArray = new Double[]{-0.99056};
         Double[] logNBaseArray = new Double[]{3d, 5d, 10d};
         LogN logN = new LogN();
         for (double logNBase : logNBaseArray) {

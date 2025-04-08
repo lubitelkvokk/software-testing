@@ -12,7 +12,7 @@ public class LogN {
     }
 
     public LogN(Ln ln) {
-        this.ln = new Ln();
+        this.ln = ln;
     }
 
     public double logN(double n, double x) {
