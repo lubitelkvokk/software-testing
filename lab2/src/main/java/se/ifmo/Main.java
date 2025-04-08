@@ -24,7 +24,7 @@ public class Main {
         };
 //        Double[] xArray = new Double[]{-5.5, -5d, -4.08369, -3.85, -Math.PI, -2.45, -2.22687,
 //                -2d, -1.5708, -1.28, -0.99056, -0.7, 0d, 0.17323, 0.2802, 0.5, 6d};
-        Double[] xArray = new Double[]{-0.99056};
+        Double[] xArray = new Double[]{0.22721, 0.32097, 1d, 4d};
         Double[] logNBaseArray = new Double[]{3d, 5d, 10d};
         LogN logN = new LogN();
         for (double logNBase : logNBaseArray) {
@@ -33,7 +33,7 @@ public class Main {
             OutputStream outputStream = new FileOutputStream(resultFile, true);
             PrintWriter pw = new PrintWriter(outputStream, true);
             for (Double x : xArray) {
-                if (x > 0) logN.writeCsvResult(logNBase, x - EPS, EPS, 3, pw);
+                if (x > 0) logN.writeCsvResult(logNBase, x, EPS, 1, pw);
             }
         }
 
@@ -46,7 +46,7 @@ public class Main {
 
             for (Double x : xArray) {
                 if (x <= 0) {
-                    csvWritableByStep.writeCsvResult(x - EPS, EPS, 3, pw);
+                    csvWritableByStep.writeCsvResult(x, EPS, 1, pw);
                 }
             }
         }
