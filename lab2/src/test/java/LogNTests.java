@@ -25,7 +25,7 @@ public class LogNTests {
     @ParameterizedTest
     @MethodSource("testLnData")
     @DisplayName("Base LogN realisation testing")
-    public void testBaseTan(double x, double _y, double base) {
+    public void testBaseLogN(double x, double _y, double base) {
         double result;
         LogN baseLogN = new LogN();
         result = baseLogN.logN(base, x);
@@ -35,7 +35,7 @@ public class LogNTests {
     @ParameterizedTest
     @MethodSource("testLnData")
     @DisplayName("Testing on table of expected values")
-    public void testTanPiPeriod(double x, double lnX, double base, double lnBase, double expected) {
+    public void testLogN(double x, double lnX, double base, double lnBase, double expected) {
         double result;
         Mockito.when(mockedLn.ln(x)).thenReturn(lnX);
         Mockito.when(mockedLn.ln(base)).thenReturn(lnBase);

@@ -28,7 +28,7 @@ public class TanTests {
 
     @ParameterizedTest
     @MethodSource("testSinCosData")
-    @DisplayName("Base cot realisation testing")
+    @DisplayName("Base tan realisation testing")
     public void testBaseTan(double x) {
         double result;
         Tan baseTan = new Tan();

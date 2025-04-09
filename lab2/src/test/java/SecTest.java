@@ -26,7 +26,7 @@ public class SecTest {
 
     @ParameterizedTest
     @MethodSource("testCosData")
-    @DisplayName("Base cos realisation testing")
+    @DisplayName("Base sec realisation testing")
     public void testBaseSec(double x) {
         double result;
         Sec baseSec = new Sec();

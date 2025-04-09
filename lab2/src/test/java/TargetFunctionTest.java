@@ -43,8 +43,18 @@ public class TargetFunctionTest {
 
     @ParameterizedTest
     @MethodSource("testFuncData")
+    @DisplayName("Base func realisation testing")
+    public void testBaseFunc(double x, TestFuncData data) {
+        double result;
+        Function function = new Function();
+        result = function.calc(x, 5).doubleValue();
+        Assertions.assertEquals(data.getExpected(), result, EPS3);
+    }
+
+    @ParameterizedTest
+    @MethodSource("testFuncData")
     @DisplayName("Testing on table of expected values")
-    public void testTanPiPeriod(double x, TestFuncData data) {
+    public void testTargetFunc(double x, TestFuncData data) {
         double result;
         Mockito.when(mockedSin.sin(x)).thenReturn(data.getSinValue());
         Mockito.when(mockedCos.cos(x)).thenReturn(data.getCosValue());
