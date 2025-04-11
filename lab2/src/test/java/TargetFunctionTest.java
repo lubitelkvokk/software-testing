@@ -1,8 +1,6 @@
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,6 +9,8 @@ import se.ifmo.Function;
 import se.ifmo.math.*;
 
 import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.Double.NaN;
@@ -20,6 +20,8 @@ public class TargetFunctionTest {
     private static final double EPS3 = 1e-3;
 
     private Function func;
+    private Function funcForIntegrationStrategy;
+    private String nameForIntegrationStrategy;
 
     private Sin mockedSin;
     private Cos mockedCos;
@@ -51,58 +53,6 @@ public class TargetFunctionTest {
         Assertions.assertEquals(data.getExpected(), result, EPS3);
     }
 
-    @ParameterizedTest
-    @MethodSource("testMonotonicData")
-    @DisplayName("Testing on monotonic section")
-    public void testMonotonicSection(double x, TestFuncData data){
-        testTargetFunc(x, data);
-    }
-
-    @ParameterizedTest
-    @MethodSource("testBoundaryData")
-    @DisplayName("Testing on boundary values")
-    public void testBoundaryData(double x, TestFuncData data){
-        testTargetFunc(x, data);
-    }
-
-    @ParameterizedTest
-    @MethodSource("testPeriodicData")
-    @DisplayName("Testing on periodic")
-    public void testPeriodicData(double x, TestFuncData data){
-        testTargetFunc(x, data);
-    }
-
-    public void testTargetFunc(double x, TestFuncData data) {
-        double result;
-        Mockito.when(mockedSin.sin(x)).thenReturn(data.getSinValue());
-        Mockito.when(mockedCos.cos(x)).thenReturn(data.getCosValue());
-        Mockito.when(mockedCsc.csc(x)).thenReturn(data.getCscValue());
-        Mockito.when(mockedSec.sec(x)).thenReturn(data.getSecValue());
-        if (!isNaN(data.getTanValue())) {
-            Mockito.when(mockedTan.tan(x)).thenReturn(BigDecimal.valueOf(data.getTanValue()));
-        }
-        if (!isNaN(data.getCotValue()))
-            Mockito.when(mockedCot.cot(x)).thenReturn(BigDecimal.valueOf(data.getCotValue()));
-        Mockito.when(mockedLog.logN(3d, x)).thenReturn(data.getLog3Value());
-        Mockito.when(mockedLog.logN(5d, x)).thenReturn(data.getLog5Value());
-        Mockito.when(mockedLog.logN(10d, x)).thenReturn(data.getLog10Value());
-
-        result = func.calc(x, 5).doubleValue();
-        Assertions.assertEquals(data.getExpected(), result, EPS3);
-        if (x < 0) {
-            Mockito.verify(mockedSin).sin(x);
-            Mockito.verify(mockedCos).cos(x);
-            Mockito.verify(mockedCsc).csc(x);
-            Mockito.verify(mockedSec).sec(x);
-            Mockito.verify(mockedTan).tan(x);
-            Mockito.verify(mockedCot).cot(x);
-        } else {
-            Mockito.verify(mockedLog).logN(3, x);
-            Mockito.verify(mockedLog).logN(5, x);
-            Mockito.verify(mockedLog).logN(10, x);
-        }
-    }
-
     @Data
     @AllArgsConstructor
     private static class TestFuncData {
@@ -117,14 +67,15 @@ public class TargetFunctionTest {
         private Double log10Value;
         private Double expected;
     }
+
     private static Stream<Arguments> testMonotonicData() {
         return Stream.of(
-                Arguments.of(-0.78, new TestFuncData(-0.70323,0.71091, -1.42191, 1.40664, -0.98926, -1.01085, NaN, NaN, NaN, 1.99383)),
-                Arguments.of(-1.3, new TestFuncData(-0.96356,0.26749, -1.03782, 3.73835, -3.60212, -0.27761, NaN, NaN, NaN, 0.9408)),
+                Arguments.of(-0.78, new TestFuncData(-0.70323, 0.71091, -1.42191, 1.40664, -0.98926, -1.01085, NaN, NaN, NaN, 1.99383)),
+                Arguments.of(-1.3, new TestFuncData(-0.96356, 0.26749, -1.03782, 3.73835, -3.60212, -0.27761, NaN, NaN, NaN, 0.9408)),
                 Arguments.of(-2, new TestFuncData(-0.90929, -0.41614, -1.09975, -2.40299, 2.18504, 0.45765, NaN, NaN, NaN, 0.80487)),
                 Arguments.of(-2.37, new TestFuncData(-0.69728, -0.7168, -1.43415, -1.39508, 0.97276, 1.02799, NaN, NaN, NaN, 1.81763)),
                 Arguments.of(-5, new TestFuncData(0.95892, 0.28366, 1.04283, 3.52533, 3.38053, 0.29581, NaN, NaN, NaN, 1.63283)),
-                Arguments.of(-5.542, new TestFuncData(0.67516,0.73766, 1.48112,1.35562, 0.91526, 1.09257, NaN, NaN, NaN, 5.49669)),
+                Arguments.of(-5.542, new TestFuncData(0.67516, 0.73766, 1.48112, 1.35562, 0.91526, 1.09257, NaN, NaN, NaN, 5.49669)),
 
 
                 Arguments.of(0.22721, new TestFuncData(NaN, NaN, NaN, NaN, NaN, NaN, -1.34886, -0.92074, -0.64357, 0.0)),
@@ -152,12 +103,12 @@ public class TargetFunctionTest {
         double twoPi = 2 * Math.PI;
 
         return Stream.of(
-                Arguments.of(-0.78 - twoPi, new TestFuncData(-0.70323,0.71091, -1.42191, 1.40664, -0.98926, -1.01085, NaN, NaN, NaN, 1.99383)),
-                Arguments.of(-1.3 - twoPi, new TestFuncData(-0.96356,0.26749, -1.03782, 3.73835, -3.60212, -0.27761, NaN, NaN, NaN, 0.9408)),
+                Arguments.of(-0.78 - twoPi, new TestFuncData(-0.70323, 0.71091, -1.42191, 1.40664, -0.98926, -1.01085, NaN, NaN, NaN, 1.99383)),
+                Arguments.of(-1.3 - twoPi, new TestFuncData(-0.96356, 0.26749, -1.03782, 3.73835, -3.60212, -0.27761, NaN, NaN, NaN, 0.9408)),
                 Arguments.of(-2 - twoPi, new TestFuncData(-0.90929, -0.41614, -1.09975, -2.40299, 2.18504, 0.45765, NaN, NaN, NaN, 0.80487)),
                 Arguments.of(-2.37 - twoPi, new TestFuncData(-0.69728, -0.7168, -1.43415, -1.39508, 0.97276, 1.02799, NaN, NaN, NaN, 1.81763)),
                 Arguments.of(-5 - twoPi, new TestFuncData(0.95892, 0.28366, 1.04283, 3.52533, 3.38053, 0.29581, NaN, NaN, NaN, 1.63283)),
-                Arguments.of(-5.542 - twoPi, new TestFuncData(0.67516,0.73766, 1.48112,1.35562, 0.91526, 1.09257, NaN, NaN, NaN, 5.49669)),
+                Arguments.of(-5.542 - twoPi, new TestFuncData(0.67516, 0.73766, 1.48112, 1.35562, 0.91526, 1.09257, NaN, NaN, NaN, 5.49669)),
 
                 Arguments.of(-0.99056 - twoPi, new TestFuncData(-0.83633, 0.54822, -1.19569, 1.82408, -1.52553, -0.65550, NaN, NaN, NaN, 0.84466)),
 
@@ -172,4 +123,91 @@ public class TargetFunctionTest {
         );
     }
 
+    @TestFactory
+    @DisplayName("Step-by-step Integration Testing")
+    Collection<DynamicNode> stepByStepIntegrationTesting() {
+        List<Set<Class<?>>> testConfigurations = List.of(
+                Set.of(),
+                Set.of(Sin.class),
+                Set.of(Sin.class, Cos.class),
+                Set.of(Sin.class, Cos.class, LogN.class),
+                Set.of(Sin.class, Cos.class, Tan.class, Cot.class),
+                Set.of(Sin.class, Cos.class, Tan.class, Cot.class, Csc.class),
+                Set.of(Sin.class, Cos.class, Tan.class, Cot.class, Csc.class, Sec.class),
+                Set.of(Sin.class, Cos.class, Tan.class, Cot.class, Csc.class, Sec.class, LogN.class)
+        );
+
+        return testConfigurations.stream()
+                .map(this::createTestConfiguration)
+                .collect(Collectors.toList());
+    }
+
+    private DynamicNode createTestConfiguration(Set<Class<?>> integratedClasses) {
+        String configName = integratedClasses.isEmpty() ? "All mocks"
+                : "With real " + integratedClasses.stream()
+                .map(Class::getSimpleName)
+                .collect(Collectors.joining(" + "));
+
+        return DynamicContainer.dynamicContainer(
+                configName,
+                Stream.of(
+                        createTestContainer("Monotonic", testMonotonicData(), integratedClasses),
+                        createTestContainer("Boundary", testBoundaryData(), integratedClasses),
+                        createTestContainer("Periodic", testPeriodicData(), integratedClasses)
+                )
+        );
+    }
+
+    private DynamicContainer createTestContainer(String testType,
+                                                 Stream<Arguments> testData,
+                                                 Set<Class<?>> integratedClasses) {
+        return DynamicContainer.dynamicContainer(
+                testType,
+                testData.map(args -> {
+                    double x = ((Number) args.get()[0]).doubleValue();
+                    TestFuncData data = (TestFuncData) args.get()[1];
+
+                    return DynamicTest.dynamicTest(
+                            String.format("x=%.3f", x),
+                            () -> testTargetFunc(x, data, integratedClasses)
+                    );
+                }).collect(Collectors.toList())
+        );
+    }
+
+    private void testTargetFunc(double x, TestFuncData data, Set<Class<?>> integratedClasses) {
+        if (integratedClasses.contains(Sin.class)) func.setSin(new Sin());
+        else Mockito.when(mockedSin.sin(x)).thenReturn(data.getSinValue());
+
+        if (integratedClasses.contains(Cos.class)) func.setCos(new Cos());
+        else Mockito.when(mockedCos.cos(x)).thenReturn(data.getCosValue());
+
+        if (integratedClasses.contains(Csc.class)) func.setCsc(new Csc());
+        else Mockito.when(mockedCsc.csc(x)).thenReturn(data.getCscValue());
+
+        if (integratedClasses.contains(Sec.class)) func.setSec(new Sec());
+        else Mockito.when(mockedSec.sec(x)).thenReturn(data.getSecValue());
+
+        if (integratedClasses.contains(Tan.class)) func.setTan(new Tan());
+        else {
+            if (!isNaN(data.getTanValue())) {
+                Mockito.when(mockedTan.tan(x)).thenReturn(BigDecimal.valueOf(data.getTanValue()));
+            }
+        }
+
+        if (integratedClasses.contains(Cot.class)) func.setCot(new Cot());
+        else {
+            if (!isNaN(data.getCotValue()))
+                Mockito.when(mockedCot.cot(x)).thenReturn(BigDecimal.valueOf(data.getCotValue()));
+        }
+
+        if (integratedClasses.contains(LogN.class)) func.setLogN(new LogN());
+        else {
+            Mockito.when(mockedLog.logN(3d, x)).thenReturn(data.getLog3Value());
+            Mockito.when(mockedLog.logN(5d, x)).thenReturn(data.getLog5Value());
+            Mockito.when(mockedLog.logN(10d, x)).thenReturn(data.getLog10Value());
+        }
+        double result = func.calc(x, 5).doubleValue();
+        Assertions.assertEquals(data.getExpected(), result, EPS3);
+    }
 }
