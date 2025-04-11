@@ -29,11 +29,11 @@ public class CscTest {
     @ParameterizedTest
     @MethodSource("testSinData")
     @DisplayName("Base csc realisation testing")
-    public void testBaseCsc(double x) {
+    public void testBaseCsc(double x, double ignored_y, double expected) {
         double result;
         Csc baseCsc = new Csc();
         result = baseCsc.csc(x);
-        Assertions.assertEquals(1 / Math.sin(x), result, EPS3);
+        Assertions.assertEquals(expected, result, EPS3);
     }
 
     @ParameterizedTest

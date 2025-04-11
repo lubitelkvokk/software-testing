@@ -27,11 +27,11 @@ public class CosTests {
     @ParameterizedTest
     @MethodSource("testSinData")
     @DisplayName("Base cos realisation testing")
-    public void testBaseCos(double x) {
+    public void testBaseCos(double x, double ignored_y, double expected) {
         double result;
         Cos baseCos = new Cos();
         result = baseCos.cos(x);
-        Assertions.assertEquals(Math.cos(x), result, EPS3);
+        Assertions.assertEquals(expected, result, EPS3);
     }
 
     @ParameterizedTest

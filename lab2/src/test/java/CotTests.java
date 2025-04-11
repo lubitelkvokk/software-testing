@@ -32,11 +32,11 @@ public class CotTests {
     @ParameterizedTest
     @MethodSource("testSinCosData")
     @DisplayName("Base cot realisation testing")
-    public void testBaseCot(double x) {
+    public void testBaseCot(double x, double ignored_sinY, double ignored_cosY, double expected) {
         double result;
         Cot baseCot = new Cot();
         result = baseCot.cot(x).doubleValue();
-        Assertions.assertEquals(1 / Math.tan(x), result, EPS3);
+        Assertions.assertEquals(expected, result, EPS3);
     }
 
     @ParameterizedTest

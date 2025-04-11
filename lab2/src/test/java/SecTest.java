@@ -27,11 +27,11 @@ public class SecTest {
     @ParameterizedTest
     @MethodSource("testCosData")
     @DisplayName("Base sec realisation testing")
-    public void testBaseSec(double x) {
+    public void testBaseSec(double x, double ignored_y, double expected) {
         double result;
         Sec baseSec = new Sec();
         result = baseSec.sec(x);
-        Assertions.assertEquals(1 / Math.cos(x), result, EPS3);
+        Assertions.assertEquals(expected, result, EPS3);
     }
 
     @ParameterizedTest
@@ -57,9 +57,9 @@ public class SecTest {
                 Arguments.of(3 * Math.PI / 2, 0d, -1d),
                 Arguments.of(Math.PI / 4, Math.sqrt(2) / 2, 2 / Math.sqrt(2)),
                 Arguments.of(2 * Math.PI + Math.PI / 4, Math.sqrt(2) / 2, 2 / Math.sqrt(2)),
-                Arguments.of(-Math.PI / 4, -Math.sqrt(2) / 2, -2 / Math.sqrt(2)),
-                Arguments.of(-2 * Math.PI - Math.PI / 4, -Math.sqrt(2) / 2, -2 / Math.sqrt(2)),
-                Arguments.of(3 * Math.PI / 4, Math.sqrt(2) / 2, 2 / Math.sqrt(2)),
+                Arguments.of(-Math.PI / 4, Math.sqrt(2) / 2, 2 / Math.sqrt(2)),
+                Arguments.of(-2 * Math.PI - Math.PI / 4, Math.sqrt(2) / 2, 2 / Math.sqrt(2)),
+                Arguments.of(3 * Math.PI / 4, -Math.sqrt(2) / 2, -2 / Math.sqrt(2)),
                 Arguments.of(-3 * Math.PI / 4, -Math.sqrt(2) / 2, -2 / Math.sqrt(2))
         ).filter(args -> Math.abs((Double) args.get()[1]) > EPS3);
     }

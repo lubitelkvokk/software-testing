@@ -25,11 +25,11 @@ public class LogNTests {
     @ParameterizedTest
     @MethodSource("testLnData")
     @DisplayName("Base LogN realisation testing")
-    public void testBaseLogN(double x, double _y, double base) {
+    public void testBaseLogN(double x, double ignored_y, double base, double ignored_lnBase, double expected) {
         double result;
         LogN baseLogN = new LogN();
         result = baseLogN.logN(base, x);
-        Assertions.assertEquals(Math.log(x) / Math.log(base), result, EPS3);
+        Assertions.assertEquals(expected, result, EPS3);
     }
 
     @ParameterizedTest
